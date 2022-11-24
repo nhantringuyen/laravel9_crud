@@ -1,0 +1,15 @@
+1.composer create-project --prefer-dist laravel/laravel blog
+2.cd blog
+3.composer require laravel/passport
+ // config/app.php
+'providers' =>[
+ Laravel\Passport\PassportServiceProvider::class,
+ ],
+4. php artisan passport:install
+5. php artisan make:model Post -m
+6. php artisan make:model Image -m
+7. php artisan make:model Follows -m
+8. php artisan make:migration create_user_follow_table --create=user_follow
+9. php artisan make:controller Api\PassportAuthController
+10.  php artisan make:controller Api\PostController
+11. php artisan make:controller Api\FollowController
