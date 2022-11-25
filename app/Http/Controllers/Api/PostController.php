@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Controllers\Api\Auth;
@@ -143,4 +144,40 @@ class PostController extends Controller
         ]);
     }
 
+    /**
+     * Show error.
+     *
+     * @param  int  $user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function list_posts_user($user_id){
+        $post = Post::where('post_author','=',$user_id)->get();
+        if ($post->isEmpty()) {
+            return $this->sendError('Post not found.');
+        }
+        return response()->json([
+            "success" => true,
+            "message" => "Post retrieved successfully.",
+            "data" => $post
+        ]);
+    }
+
+    public function list_posts_users_follow(){
+        $current_user_id = auth()->user()->getId();
+        $user = User::find($current_user_id);
+        $list_follows = $user->follows;
+        $user_follow = [];
+        foreach ($list_follows as $follow){
+            $user_follow[] = $follow->user_id;
+        }
+        $post = Post::whereIn('post_author',$user_follow)->get();
+        if ($post->isEmpty()) {
+            return $this->sendError('Post not found.');
+        }
+        return response()->json([
+            "success" => true,
+            "message" => "Post retrieved successfully.",
+            "data" => $post
+        ]);
+    }
 }

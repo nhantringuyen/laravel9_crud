@@ -35,8 +35,11 @@ Route::middleware('auth:api')->group(function () {
     Route::post('create_posts', [PostController::class, 'store']);
     Route::put('update_post/{post}', [PostController::class, 'update']);
     Route::delete('delete_post/{post}', [PostController::class, 'destroy']);
+    Route::get('list_posts_user/{user}', [PostController::class, 'list_posts_user']);
+    Route::get('list_posts_users_follow', [PostController::class, 'list_posts_users_follow']);
     //follow
     Route::post('add_follow/{user}', [FollowController::class, 'add_follow']);
     Route::post('user_follow_one', [FollowController::class, 'user_follow_one']);
     Route::post('one_follow_users', [FollowController::class, 'one_follow_users']);
+
 });

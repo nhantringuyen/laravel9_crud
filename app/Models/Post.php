@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -47,11 +46,6 @@ class Post extends Model
     {
         return $this->morphOne(Image::class, 'resource')->latest();
     }
-
-//    public function featuredImage(): BelongsTo
-//    {
-//        return $this->belongsTo(Image::class, 'featured_image_id');
-//    }
     private function createSlug($title){
         if (static::wherePost_name($post_name = Str::slug($title))->exists()) {
             $max = static::wherePost_title($title)->latest('id')->skip(1)->value('post_name');

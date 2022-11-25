@@ -45,9 +45,6 @@ class PassportAuthController extends Controller
             'phone'  => $request->phone,
             'address' => $request->address
         ]);
-
-//        $token = $user->createToken('Laravel9PassportAuth')->accessToken;
-
         return response()->json(['message' => 'register success'], 200);
     }
 
@@ -69,8 +66,7 @@ class PassportAuthController extends Controller
         }
     }
 
-    public static function userInfo()
-    {
+    public static function userInfo() {
         $user = auth()->user();
         return response()->json(['user' => $user], 200);
     }

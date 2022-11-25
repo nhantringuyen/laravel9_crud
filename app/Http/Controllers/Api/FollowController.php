@@ -20,7 +20,7 @@ class FollowController extends Controller
     public function add_follow($user_id){
         if (auth()->check()) {
             $current_user_id = auth()->user()->getId();
-            $user = User::find(3);
+            $user = User::find($current_user_id);
            // dd($user->follows->first()->pivot);
             if($user_id != $current_user_id) {
                 $follower = Follow::where('user_id','=',$user_id)->get()->first();
@@ -90,4 +90,5 @@ class FollowController extends Controller
             "data" => $user_arr
         ]);
     }
+
 }
