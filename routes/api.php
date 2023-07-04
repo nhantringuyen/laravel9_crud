@@ -18,11 +18,6 @@ use App\Http\Controllers\API\FollowController;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
-
 Route::post('register', [PassportAuthController::class, 'register']);
 Route::post('login', [PassportAuthController::class, 'login']);
 
@@ -39,7 +34,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('list_posts_users_follow', [PostController::class, 'list_posts_users_follow']);
     //follow
     Route::post('add_follow/{user}', [FollowController::class, 'add_follow']);
-    Route::post('user_follow_one', [FollowController::class, 'user_follow_one']);
-    Route::post('one_follow_users', [FollowController::class, 'one_follow_users']);
-
+    Route::get('user_follow_one', [FollowController::class, 'user_follow_one']);
+    Route::get('one_follow_users', [FollowController::class, 'one_follow_users']);
 });

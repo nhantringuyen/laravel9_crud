@@ -21,7 +21,7 @@ class PostController extends Controller
         $posts = Post::all();
         return response()->json([
             "success" => true,
-            "message" => "Product List",
+            "message" => "Post List",
             "data" => $posts
         ]);
     }
@@ -42,7 +42,7 @@ class PostController extends Controller
         ]);
         $user = PassportAuthController::userInfo();
         if (auth()->check()){
-            $id = auth()->user()->getId();
+            $id = auth()->user()->id;
             $input['post_author'] = $id;
         }
         if($validator->fails()){
@@ -56,7 +56,7 @@ class PostController extends Controller
         $post->featured_image()->create(['path'=> $imagename]);
         return response()->json([
             "success" => true,
-            "message" => "Product created successfully.",
+            "message" => "Post created successfully.",
             "data" => $post
         ]);
     }
@@ -101,7 +101,9 @@ class PostController extends Controller
         $post->post_title = $input['post_title'];
         $post->post_excerpt = $input['post_excerpt'];
         $post->post_content = $input['post_content'];
-        $post->post_status = $input['post_status'];
+        if(isset($input['post_status'])) {
+            $post->post_status = $input['post_status'];
+        }
         $image  = $request->featured_image;
         if($image != null) {
             $imagename = $image->getClientOriginalName() . time() . '.' . $image->getClientOriginalExtension();
@@ -163,7 +165,7 @@ class PostController extends Controller
     }
 
     public function list_posts_users_follow(){
-        $current_user_id = auth()->user()->getId();
+        $current_user_id = auth()->user()->id;
         $user = User::find($current_user_id);
         $list_follows = $user->follows;
         $user_follow = [];

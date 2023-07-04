@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -7,7 +6,6 @@ use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 
 class FollowController extends Controller
 {
@@ -19,27 +17,34 @@ class FollowController extends Controller
      */
     public function add_follow($user_id){
         if (auth()->check()) {
-            $current_user_id = auth()->user()->getId();
-            $user = User::find($current_user_id);
-           // dd($user->follows->first()->pivot);
+            $current_user_id = auth()->user()->id;
+            $user = auth()->user();
+//           dd($user->follows->first());
             if($user_id != $current_user_id) {
-                $follower = Follow::where('user_id','=',$user_id)->get()->first();
-                if (is_null($follower)) {
-                    $follower = Follow::create(array(
-                        'user_id' => $user_id
-                    ));
-                }
-                $followed = DB::table('user_follow')->where('follow_id', $follower->id)->where('user_id', $current_user_id)->get()->first();
-                if(empty($followed)) {
+                $follower_array = $user->follows;
+                $find = false;
+                foreach ($follower_array as $key => $value):
+                    if($user_id == $value->user_id){
+                        $find = true;
+                        break;
+                    }
+                endforeach;
+                if($find == true){
+                    return response()->json([
+                        "success" => false,
+                        "message" => "You added follower successfully.",
+                    ]);
+                }else{
+                    $follower = Follow::where('user_id','=',$user_id)->get()->first();
+                    if (is_null($follower)) {
+                        $follower = Follow::create(array(
+                            'user_id' => $user_id
+                        ));
+                    }
                     $user->follows()->attach($follower->id);
                     return response()->json([
                         "success" => true,
                         "message" => "Add follower successfully.",
-                    ]);
-                }else{
-                    return response()->json([
-                        "success" => false,
-                        "message" => "You added follower successfully.",
                     ]);
                 }
             }else{
@@ -63,7 +68,6 @@ class FollowController extends Controller
                 $user_arr[] = User::find($user->user_id);
             }
         }
-//        dd($user_arr);
         return response()->json([
             "success" => true,
             "message" => "user retrieved successfully.",

@@ -22,10 +22,7 @@ class Post extends Model
         'post_content',
         'post_status'
     ];
-    protected $guarded = [];
-//    protected $casts = [
-//      'post_excerpt' => 'string:20000'
-//    ];
+
     /**
      * Boot the model.
      */

@@ -13,3 +13,5 @@
 9. php artisan make:controller Api\PassportAuthController
 10.  php artisan make:controller Api\PostController
 11. php artisan make:controller Api\FollowController
+
+php artisan make:model Admin -m

@@ -35,6 +35,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+//    protected $appends = ['is_admin'];
+
+    protected $guarded = [
+        'utype'
+    ];
 
     /**
      * The attributes that should be cast.
@@ -44,13 +49,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function getId() {
-        return $this->id;
-    }
+
+    /**
+     * Get the administrator flag for the user.
+     *
+     * @return  bool
+     */
+//    public function getIsAdminAttribute()
+//    {
+////        dd($this->attributes);
+//        return $this->attributes['utype'] == 'ADM';
+//    }
+
     public function image() : MorphOne {
         return $this->morphOne(Image::class, 'resource');
     }
-    public function post(){
+    public function posts(){
         return $this->hasMany(Post::class);
     }
     public function follows(){
